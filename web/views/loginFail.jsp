@@ -20,7 +20,7 @@
             <div class="Right_side">
                 <div class="login-box">
                     <h2>Login</h2>
-                    <form method="POST" action="login">
+                    <form method="POST" action="homepage">
                         <div class="user-box">
                             <input type="text" name="username" required="" />
                             <label>Username</label>
@@ -32,6 +32,7 @@
                         <div>
                             Wrong username or password!
                         </div>
+                        <br><br><br>
                         <div class="remember-me--forget-password">
                             <label>
                                 <input type="checkbox" name="item" checked />
