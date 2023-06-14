@@ -9,8 +9,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import models.SubmissionDAO;
+import models.TaskDAO;
 import models.UserDAO;
 import models.entity.Submission;
+import models.entity.Task;
 import models.entity.User;
 
 /**
@@ -85,6 +87,7 @@ public class HomepageController extends HttpServlet {
         request.setAttribute("isAdminMode", this.isAdminMode);
 
         request.setAttribute("submissions", this.getSubmissions());
+        request.setAttribute("tasks", this.getTasks());
 
         request.setAttribute("filePath", "./homepage.jsp");
         request.getRequestDispatcher("views/main.jsp").forward(request, response);
@@ -98,6 +101,12 @@ public class HomepageController extends HttpServlet {
         }
 
         return submissionDAO.getSubmissionsByUsernam(this.currentUser.getUsername());
+    }
+
+    private List<Task> getTasks() {
+        TaskDAO taskDAO = new TaskDAO();
+
+        return taskDAO.getTasks();
     }
 
 }

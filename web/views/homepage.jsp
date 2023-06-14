@@ -6,12 +6,14 @@
 
 
 <%@page import = "models.entity.Submission"%>
+<%@page import = "models.entity.Task"%>
 <%@page import = "java.text.DateFormat"%>  
 <%@page import = "java.text.SimpleDateFormat"%>  
 <%@page import = "java.util.*"%>
 <%
     boolean isAdmin =  (boolean) request.getAttribute("isAdminMode");
     List<Submission> submissions = (List<Submission>) request.getAttribute("submissions");
+    List<Task> tasks = (List<Task>) request.getAttribute("tasks");
 %>
 <div class="content-homepage">
     <div class="content-homepage_small">
@@ -31,36 +33,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!--                    {{#tasksTable
-                                tasks pageTask.begin pageTask.end isAdmin
-                                        }}{{/tasksTable}}-->
+                    <%
+                    int index = 1;
+                    for(Task task: tasks) { 
+                    %>
+                    <tr class="problem_item">
+                        <td><%= index %></td>
+                        <td><%= task.getTaskname() %></td>
+                        <td><%= task.getScore() %></td>
+                        <% if(isAdmin) { %>
+                        <td>icon add</td>
+                        <td>icon del</td>
+                        <% } %>
+                    </tr>
+                    <%
+                        index--;
+                        } 
+                    %>
                 </tbody>
             </table>
-            <form action="/homepage" method="post" class="pagination">
-                <input
-                    type="hidden"
-                    min="0"
-                    name="indexTask"
-                    value={{pageTask.index}}
-                    />
-                <input
-                    type="hidden"
-                    min="0"
-                    name="totalPageTask"
-                    value={{pageTask.totalPage}}
-                    />
-                <!--                {{#if taskHome}}
-                                <input type="submit" name="btnHomeTask" value="<<" />
-                                <input type="submit" name="btnPreTask" value="<" />
-                                {{/if}}
-                                {{#displayPageTask
-                          pageTask.pageStart pageTask.pageEnd pageTask.index
-                                }}{{/displayPageTask}}
-                                {{#if taskEnd}}
-                                <input type="submit" name="btnNextTask" value=">" />
-                                <input type="submit" name="btnEndTask" value=">>" />
-                                {{/if}}-->
-            </form>
             <%  if(isAdmin) { %>
             <div class="userFunction userFunction_small mt-4">
                 <a href="/homepage/tasks/showCreate">
@@ -90,7 +81,7 @@
             </thead>
             <tbody>
                 <%
-                    int index = (int) submissions.size();
+                    index = (int) submissions.size();
                     for(Submission submission: submissions) { 
                 %>
                 <tr class="submission_item">
@@ -109,36 +100,19 @@
                 %>
             </tbody>
         </table>
-        <form action="/homepage" method="post" class="pagination">
-            <input type="hidden" min="0" name="index" value={{page.index}} />
-            <input type="hidden" min="0" name="totalPage" value={{page.totalPage}} />
-            <!--            {{#if subHome}}
-                        <input type="submit" name="btnHome" value="<<" />
-                        <input type="submit" name="btnPre" value="<" />
-                        {{/if}}
-                        {{#displayPageSubmission
-                    page.pageStart page.pageEnd page.index
-                        }}{{/displayPageSubmission}}
-                        {{#if subEnd}}
-                        <input type="submit" name="btnNext" value=">" />
-                        <input type="submit" name="btnEnd" value=">>" />
-                        {{/if}}-->
-        </form>
-        <div style="height:10em">
-
-        </div>
     </div>
-    <div class="page_increase"style="height: 50em">
-    </div>
-    <script>
-        function checkDelete() {
-            var a = confirm("are you sure?");
-            if (a) {
-                window.location.href = '/homepage/tasks/delete';
-            }
+</div>
+<div class="page_increase"style="height: 50em">
+</div>
+<script>
+    function checkDelete() {
+        var a = confirm("are you sure?");
+        if (a) {
+            window.location.href = '/homepage/tasks/delete';
         }
+    }
 
-    </script>
+</script>
 </div>
 
 

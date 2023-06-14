@@ -23,6 +23,12 @@ INSERT INTO submissions (username, taskname, status, date, slug, code) VALUES ('
 GO
 select * from submissions 
 GO
+Create Table tasks (taskname varchar(30), taskDescription varchar(30), timeLimit varchar(30), memoryLimit varchar(30), slug varchar(30), score INT)
+GO
+INSERT INTO tasks (taskname, taskDescription, timeLimit, memoryLimit, slug, score) VALUES ('Q1', 'alo alo', '1', '256', 'Q1', 100)
+GO
+select * from tasks 
+GO
 
 drop table submissions
 
