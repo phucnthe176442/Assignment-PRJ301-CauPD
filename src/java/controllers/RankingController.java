@@ -11,6 +11,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import models.UserDAO;
+import models.entity.User;
 
 /**
  *
@@ -19,7 +23,8 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "RankingController", urlPatterns = {"/ranking"})
 public class RankingController extends HttpServlet {
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
+    // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -31,7 +36,7 @@ public class RankingController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        showRanking(request, response);
     }
 
     /**
@@ -45,7 +50,17 @@ public class RankingController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    }
 
+    private void showRanking(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<User> users = new ArrayList<User>();
+        UserDAO userDAO = new UserDAO();
+        users = userDAO.getUserRanking();
+        request.setAttribute("users", users);
+
+        request.setAttribute("filePath", "./ranking.jsp");
+        request.getRequestDispatcher("views/main.jsp").forward(request, response);
     }
 
 }

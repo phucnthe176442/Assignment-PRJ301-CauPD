@@ -1,7 +1,5 @@
 package models.entity;
 
-import java.sql.Date;
-
 /**
  *
  * @author Admin
@@ -11,14 +9,14 @@ public class Submission {
     private String username;
     private String taskname;
     private String status;
-    private Date when;
+    private String when;
     private String slug;
     private String code;
 
     public Submission() {
     }
 
-    public Submission(String username, String taskname, String status, Date when, String slug, String code) {
+    public Submission(String username, String taskname, String status, String when, String slug, String code) {
         this.username = username;
         this.taskname = taskname;
         this.status = status;
@@ -39,7 +37,7 @@ public class Submission {
         return status;
     }
 
-    public Date getWhen() {
+    public String getWhen() {
         return when;
     }
 
@@ -63,7 +61,7 @@ public class Submission {
         this.status = status;
     }
 
-    public void setWhen(Date when) {
+    public void setWhen(String when) {
         this.when = when;
     }
 
