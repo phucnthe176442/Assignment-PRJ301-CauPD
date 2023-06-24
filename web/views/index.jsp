@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
-    String BODY_FILE_PATH = (String) request.getAttribute("filePath");
+    String bodyFilePath = (String) request.getAttribute("filePath");
 %>
 <html>
     <head>
@@ -15,14 +15,14 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-        <link rel="stylesheet" href="./views/css/index.css">
+        <link rel="stylesheet" href="/views/css/index.css">
         <title>Online Judge PRJ301</title>
     </head>
     <body>
         <div class="container_new">
             <jsp:include page = "./common/header.jsp"/>
 
-            <jsp:include page = "<%= BODY_FILE_PATH %>"/>
+            <jsp:include page = "<%= bodyFilePath %>"/>
 
             <jsp:include page = "./common/footer.jsp"/>
         </div>

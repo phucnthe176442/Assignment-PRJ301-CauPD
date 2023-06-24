@@ -16,7 +16,14 @@ public class Task {
     public Task() {
     }
 
-    public Task(String taskname, String taskDescription, String timeLimit, String memoryLimit, String slug, int score) {
+    public Task(
+            String taskname,
+            String taskDescription,
+            String timeLimit,
+            String memoryLimit,
+            String slug,
+            int score
+    ) {
         this.taskname = taskname;
         this.taskDescription = taskDescription;
         this.timeLimit = timeLimit;

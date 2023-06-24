@@ -1,5 +1,6 @@
-package config.db;
+package models;
 
+import config.db.DBContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -16,7 +16,14 @@ public class Submission {
     public Submission() {
     }
 
-    public Submission(String username, String taskname, String status, String when, String slug, String code) {
+    public Submission(
+            String username,
+            String taskname,
+            String status,
+            String when,
+            String slug,
+            String code
+    ) {
         this.username = username;
         this.taskname = taskname;
         this.status = status;

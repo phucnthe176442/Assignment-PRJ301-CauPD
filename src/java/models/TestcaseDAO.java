@@ -4,8 +4,6 @@
  */
 package models;
 
-import config.db.MyDAO;
-
 /**
  *
  * @author Admin

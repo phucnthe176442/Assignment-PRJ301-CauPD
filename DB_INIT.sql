@@ -30,9 +30,10 @@ GO
 select * from tasks 
 GO
 
+/*
 drop table submissions
 
 /* test */
 update users
 set score = 0
-where username = 'admin'
+where username = 'admin' */

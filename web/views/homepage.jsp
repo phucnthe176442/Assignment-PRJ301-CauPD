@@ -54,10 +54,10 @@
             </table>
             <%  if(isAdmin) { %>
             <div class="userFunction userFunction_small mt-4">
-                <a href="/homepage/tasks/showCreate">
+                <a href="tasks/showCreate">
                     <button class="mt-3">Add Task</button>
                 </a>
-                <a href="/homepage/users/showAll">
+                <a href="users/showAll">
                     <button class="mt-3">Show Users</button>
                 </a>
             </div>
