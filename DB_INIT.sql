@@ -28,7 +28,11 @@ GO
 INSERT INTO tasks (taskname, taskDescription, timeLimit, memoryLimit, slug, score) VALUES ('Q1', 'alo alo', '1', '256', 'Q1', 100)
 GO
 select * from tasks 
+select * from tasks where slug = 'Q1'
 GO
+
+drop table tasks
+select * from users where username = 'phucnt'
 
 /*
 drop table submissions

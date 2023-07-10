@@ -15,6 +15,12 @@ import utils.App;
  */
 @WebServlet(name = "UserController", urlPatterns = {"/users?slug"})
 public class UserController extends HttpServlet {
+    
+    // [GET] /homepage/users/showAll
+    protected void index(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+    }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -59,7 +65,7 @@ public class UserController extends HttpServlet {
     protected void showAllUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("reached here");
-        App.redirect("users.jsp", request, response);
+        App.forward("users.jsp", request, response);
     }
 
     // [POST] /homepage/users/delete

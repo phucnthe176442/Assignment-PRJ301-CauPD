@@ -11,10 +11,12 @@
 <%@page import = "java.text.SimpleDateFormat"%>  
 <%@page import = "java.util.*"%>
 <%
-    boolean isAdmin =  (boolean) request.getAttribute("isAdminMode");
+    boolean isAdmin =  (boolean) request.getAttribute("isAdmin");
     List<Submission> submissions = (List<Submission>) request.getAttribute("submissions");
     List<Task> tasks = (List<Task>) request.getAttribute("tasks");
 %>
+
+
 <div class="content-homepage">
     <div class="content-homepage_small">
 
@@ -39,7 +41,7 @@
                     %>
                     <tr class="problem_item">
                         <td><%= index %></td>
-                        <td><%= task.getTaskname() %></td>
+                        <td><a href="/tasks/<%= task.getSlug() %>"><%= task.getTaskname() %></a></td>
                         <td><%= task.getScore() %></td>
                         <% if(isAdmin) { %>
                         <td>icon add</td>
@@ -47,7 +49,7 @@
                         <% } %>
                     </tr>
                     <%
-                        index--;
+                        index++;
                         } 
                     %>
                 </tbody>
@@ -113,7 +115,10 @@
     }
 
 </script>
-</div>
+
+
+
+
 
 
 

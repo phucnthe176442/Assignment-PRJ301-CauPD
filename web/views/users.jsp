@@ -3,6 +3,11 @@
     Created on : Jun 14, 2023, 11:05:04 PM
     Author     : Admin
 --%>
+<%@page import = "models.entity.User" %>
+<%@page import = "java.util.List" %>
+<%
+    List<User> users = (List<User>) request.getAttribute("users");
+%>
 
 <div class="ranking" style="overflow-x: auto;">
     <a href="/homepage/users/show"><button class="btn_addmore" type="submit">Add
@@ -18,30 +23,33 @@
                 <th class="score">Score</th>
                 <th class="score">Delete</th>
             </tr>
-            {{#each users}}
+            <% 
+                int rank = 1;
+                for(User user : users) { %>
             <tr class="ranking_content">
-                <td class="rank_rank">{{@index}}</td>
-                <td class="username_rank">{{this.user_name}}</td>
-                <td class="username_rank">{{this.email}}</td>
-                <td class="score">{{this.score}}</td>
+                <td class="rank_rank"><%= rank %></td>
+                <td class="username_rank"><%= user.getUsername() %></td>
+                <td class="username_rank"><%= user.getEmail() %></td>
+                <td class="score"><%= User.getScore() %></td>
                 <td class="score"><form action="/homepage/users/delete" method="post">
                         <input
                             type="hidden"
                             name="user_name"
-                            value="{{this.user_name}}"
+                            value="<%= user.getUsername() %>"
                             />
                         <button onclick="checkDelete()" type="submit"><i
                                 class="fa-solid fa-circle-minus"
                                 ></i></button>
                     </form></td>
             </tr>
-            {{/each}}
+            <% } %>
         </table>
     </div>
     <ul class="ranking_end">
 
     </ul>
 </div>
+
 <script>
     function checkDelete() {
         var a = confirm("are you sure?");

@@ -1,0 +1,44 @@
+<%-- 
+    Document   : createTask
+    Created on : Jun 25, 2023, 10:56:13 PM
+    Author     : Admin
+--%>
+
+<form method="POST" action="/homepage/tasks/create" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="task_name" class="form-label">Task Name</label>
+        <input type="text" name="task_name" class="form-control" id="task_name" placeholder="Enter task name" required />
+    </div>
+    <div class="mb-3">
+        <label for="task_description" class="form-label">Task Description</label>
+        <input type="file" name="task_description" class="form-control" id="task_description"
+               placeholder="Upload task description" required accept="application/pdf" />
+    </div>
+    <div class="mb-3">
+        <label for="score" class="form-label">Score</label>
+        <input type="number" name="score" class="form-control" id="score" placeholder="Enter score" required />
+    </div>
+
+    <button type="submit">Add Task</button>
+</form>
+<script>
+    var uploadField = document.getElementById("task_description");
+    var myFile = "";
+    uploadField.onchange = function () {
+        if (this.files[0].size > 2 * 1024 * 1024) {
+            alert("File is too big!");
+            this.value = "";
+        }
+        ;
+        myFile = this.files[0].name;
+        console.log(myFile);
+        var upld = myFile.split('.').pop();
+        if (upld != 'pdf') {
+            alert("Only PDF are allowed");
+            this.value = "";
+            ;
+        }
+    };
+
+
+</script>

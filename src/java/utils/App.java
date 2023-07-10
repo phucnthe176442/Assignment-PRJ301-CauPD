@@ -11,13 +11,22 @@ import java.io.IOException;
  */
 public class App {
 
-    public static void redirect(
+    public static void forward(
             String filePath,
             HttpServletRequest request,
             HttpServletResponse response
     ) throws ServletException, IOException {
         request.setAttribute("filePath", filePath);
         request.getRequestDispatcher("views/index.jsp").forward(request, response);
+    }
+    
+    public static void include(
+            String filePath,
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws ServletException, IOException {
+        request.setAttribute("filePath", filePath);
+        request.getRequestDispatcher("views/index.jsp").include(request, response);
     }
 
 }

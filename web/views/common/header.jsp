@@ -6,7 +6,7 @@
 
 <%@page import = "models.entity.User"%>
 <%
-    User currentUser = (User) request.getAttribute("currentUser");
+    User currentUser = (User) request.getSession().getAttribute("currentUser");
 %>
 <header class="header">
     <form method="post" action="/homepage/users/updateName">

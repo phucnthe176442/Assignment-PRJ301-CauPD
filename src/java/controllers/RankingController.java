@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 import models.UserDAO;
 import models.entity.User;
@@ -29,17 +28,16 @@ public class RankingController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.sendRedirect("index.html");
     }
 
     private void index(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<User> users = new ArrayList<User>();
         UserDAO userDAO = new UserDAO();
-        users = userDAO.getUserRanking();
-        System.out.println("Size users list: " + users.size());
+        List<User> users = userDAO.getUserRanking();
         request.setAttribute("users", users);
 
-        App.redirect("ranking.jsp", request, response);
+        App.forward("ranking.jsp", request, response);
     }
 
 }
