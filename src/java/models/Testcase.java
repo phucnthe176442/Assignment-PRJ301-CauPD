@@ -1,13 +1,15 @@
 
-package models.entity;
+package models;
+
+import java.sql.Timestamp;
 
 /**
  *
  * @author Admin
  */
-public class Testcase {
+public class Testcase extends BaseModel {
 
-    private String taskname;
+    private String slug;
     private String input;
     private String output;
 
@@ -15,17 +17,21 @@ public class Testcase {
     }
 
     public Testcase(
-            String taskname,
+            int id,
+            Timestamp createdAt,
+            Timestamp updatedAt,
+            String slug,
             String input,
             String output
     ) {
-        this.taskname = taskname;
+        super(id, createdAt, updatedAt);
+        this.slug = slug;
         this.input = input;
         this.output = output;
     }
 
-    public String getTaskname() {
-        return taskname;
+    public String getSlug() {
+        return slug;
     }
 
     public String getInput() {
@@ -36,8 +42,8 @@ public class Testcase {
         return output;
     }
 
-    public void setTaskname(String taskname) {
-        this.taskname = taskname;
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public void setInput(String input) {

@@ -7,10 +7,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import models.SubmissionDAO;
-import models.TaskDAO;
-import models.entity.User;
-import utils.App;
+import dal.SubmissionDBContext;
+import dal.TaskDBContext;
+import models.User;
 
 /**
  *
@@ -28,7 +27,7 @@ public class HomepageController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("index.html");
+        response.sendRedirect("/");
     }
 
     private void index(HttpServletRequest request, HttpServletResponse response)
@@ -36,29 +35,27 @@ public class HomepageController extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             boolean isAdmin = (boolean) session.getAttribute("isAdmin");
-            User currentUser = (User) session.getAttribute("currentUser");
-            request.setAttribute("currentUser", currentUser);
-            request.setAttribute("isAdmin", isAdmin);
+            User user = (User) session.getAttribute("user");
 
-            SubmissionDAO submissionDAO = new SubmissionDAO();
-            TaskDAO taskDAO = new TaskDAO();
-            String submissionQuery = "select * from submissions";
-            String taskQuery = "select * from tasks";
-            if (!isAdmin) {
-                submissionQuery = "select * from submissions where username = '" + currentUser.getUsername() + "'";
+            TaskDBContext taskDBContext = new TaskDBContext();
+            request.setAttribute("tasks", taskDBContext.list());
+            SubmissionDBContext submissionDBContext = new SubmissionDBContext();
+            if (isAdmin) {
+                request.setAttribute(
+                        "submissions",
+                        submissionDBContext.list()
+                );
+            } else {
+                request.setAttribute(
+                        "submissions",
+                        submissionDBContext.listByUsername(user.getUsername())
+                );
             }
-            request.setAttribute(
-                    "submissions",
-                    submissionDAO.getSubmissions(submissionQuery)
-            );
-            request.setAttribute(
-                    "tasks",
-                    taskDAO.getTasks(taskQuery)
-            );
 
-            App.forward("homepage.jsp", request, response);
-        }catch(Exception e) {
-            response.sendRedirect("index.html");
+            request.getRequestDispatcher("views/homepage.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("/");
         }
     }
 }

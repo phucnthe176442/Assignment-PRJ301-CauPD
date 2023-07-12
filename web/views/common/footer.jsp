@@ -7,7 +7,7 @@
 <footer class="footer">
     <ul class="nav_item logo_footer">
         <li class="nav_logo">
-            <img src="./public/img/logo.png" href="" alt="logo" class="logo">
+            <img src="/public/img/logo.png" href="" alt="logo" class="logo">
         </li>
     </ul>
 

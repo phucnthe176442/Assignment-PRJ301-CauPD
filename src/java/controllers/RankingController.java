@@ -6,11 +6,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.util.List;
-import models.UserDAO;
-import models.entity.User;
-import utils.App;
+import dal.UserDBContext;
+import java.util.ArrayList;
+import models.User;
 
 /**
  *
@@ -28,16 +26,15 @@ public class RankingController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("index.html");
+        response.sendRedirect("/");
     }
 
     private void index(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        UserDAO userDAO = new UserDAO();
-        List<User> users = userDAO.getUserRanking();
+        UserDBContext userDBContext = new UserDBContext();
+        ArrayList<User> users = userDBContext.listByRank();
         request.setAttribute("users", users);
-
-        App.forward("ranking.jsp", request, response);
+        request.getRequestDispatcher("views/ranking.jsp").forward(request, response);
     }
 
 }

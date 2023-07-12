@@ -1,4 +1,3 @@
-
 package controllers;
 
 import java.io.IOException;
@@ -8,10 +7,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
-import models.UserDAO;
-import models.entity.User;
-import utils.App;
+import dal.UserDBContext;
+import models.User;
 
 /**
  *
@@ -22,25 +19,28 @@ public class LoginController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if (request.getParameter("logout") != null) {
+            request.getSession().invalidate();
+            response.sendRedirect("/login");
+            return;
+        }
         if (isLoginValid(request)) {
             response.sendRedirect("/homepage");
             return;
         }
-        
-        App.forward("loginFail.jsp", request, response);
+
+        request.getRequestDispatcher("views/loginFail.jsp").forward(request, response);
     }
 
     protected boolean isLoginValid(HttpServletRequest request)
             throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        UserDAO userDAO = new UserDAO();
-        String userQuery = "select * from users where username = '" + username + "'";
-        List<User> users = userDAO.excuteQuery(userQuery);
-        if ((int) users.size() == 0) {
+        UserDBContext userDBContext = new UserDBContext();
+        User xUser = userDBContext.getByUsername(username);
+        if (xUser == null) {
             return false;
         }
-        User xUser = users.get(0);
 
         boolean isLoginValid = xUser.getPassword().equals(password);
         if (!isLoginValid) {
@@ -48,7 +48,7 @@ public class LoginController extends HttpServlet {
         }
 
         HttpSession session = request.getSession();
-        session.setAttribute("currentUser", xUser);
+        session.setAttribute("user", xUser);
         boolean isAdmin = false;
         if (username.equals("admin")) {
             isAdmin = true;
@@ -57,10 +57,10 @@ public class LoginController extends HttpServlet {
         return true;
     }
 
-        @Override
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        App.forward("login.jsp", request, response);
+        response.sendRedirect("/");
     }
 
     @Override

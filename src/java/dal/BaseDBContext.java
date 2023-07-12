@@ -1,25 +1,30 @@
-package config.db;
+package dal;
 
-import config.db.DBConfig;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.BaseModel;
 
-public class DBContext {
+public abstract class BaseDBContext<T extends BaseModel> {
 
     public Connection connection;
 
-    public DBContext() {
+    public BaseDBContext() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(DBConfig.URL,
                     DBConfig.USERNAME, DBConfig.PASSWORD);
-
-            System.out.println("Connected to DB successfully");
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BaseDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public abstract ArrayList<T> list();
+    public abstract T get(int id);
+    public abstract T insert(T model);
+    public abstract void update(T model);
+    public abstract void delete(int id);
 }

@@ -1,43 +1,65 @@
+/* INIT DATABASE */
 USE [master]
 GO
-
 IF EXISTS (SELECT * FROM sys.databases WHERE name = 'OnlineJudgeDB')
 	DROP DATABASE OnlineJudgeDB
 GO
-
 CREATE DATABASE OnlineJudgeDB
 GO
-
-use OnlineJudgeDB
+USE OnlineJudgeDB
+GO 
+SET ANSI_NULLS ON
 GO
-Create Table users (username varchar(30), password varchar(30), email varchar(30), score int, PRIMARY KEY (username))
+SET QUOTED_IDENTIFIER ON 
 GO
-INSERT INTO users (username, password, email, score) VALUES ('admin', '1', 'admin@gmail.com', 0)
-INSERT INTO users (username, password, email, score) VALUES ('phucnt', '1', 'phucnthe176442@fpt.edu.vn', 100)
+CREATE TABLE [dbo].[users](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[createdAt] [datetime] NOT NULL,
+	[updatedAt] [datetime] NOT NULL,
+	[username] [nvarchar](255) NOT NULL,
+	[password] [nvarchar](1000) NULL,
+	[email] [nvarchar](255) NOT NULL,
+	[score] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
 GO
-select * from users order by score DESC
+CREATE TABLE [dbo].[tasks](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[createdAt] [datetime] NOT NULL,
+	[updatedAt] [datetime] NOT NULL,
+	[taskname] [nvarchar](255) NULL,
+	[taskDescription] [nvarchar](255) NOT NULL,
+	[timeLimit] [nvarchar](255) NOT NULL,
+	[memoryLimit] [nvarchar](255) NULL,
+	[slug] [nvarchar](255) NOT NULL,
+	[score] [int] NULL,
+)
 GO
-Create Table submissions (username varchar(30), taskname varchar(30), status varchar(30), date varchar(30), slug varchar(30), code varchar(256))
+CREATE TABLE [dbo].[submissions](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[createdAt] [datetime] NOT NULL,
+	[updatedAt] [datetime] NOT NULL,
+	[username] [nvarchar](255) NOT NULL,
+	[taskname] [nvarchar](255) NULL,
+	[status] [nvarchar](255) NOT NULL,
+	[slug] [nvarchar](255) NOT NULL,
+	[code] [nvarchar](1000) NULL,
+)
 GO
-INSERT INTO submissions (username, taskname, status, date, slug, code) VALUES ('phucnt', 'Q1', 'Accepted', '2023-06-14 12:45:43', 'Q1', 'alo alo')
+CREATE TABLE [dbo].[testcases](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[createdAt] [datetime] NOT NULL,
+	[updatedAt] [datetime] NOT NULL,
+	[slug] [nvarchar](255) NOT NULL,
+	[input] [nvarchar](255) NOT NULL,
+	[output] [nvarchar](255) NOT NULL,
+)
 GO
-select * from submissions 
+SET IDENTITY_INSERT [dbo].[users] ON
 GO
-Create Table tasks (taskname varchar(30), taskDescription varchar(30), timeLimit varchar(30), memoryLimit varchar(30), slug varchar(30), score INT)
+INSERT [dbo].[users] ([id], [createdAt], [updatedAt], [username], [password], [email], [score]) VALUES (1, CAST(N'2023-06-12T22:43:59.877' AS DateTime), CAST(N'2023-06-12T22:43:59.877' AS DateTime), N'admin', N'1', N'admin@gmail.com', 0)
 GO
-INSERT INTO tasks (taskname, taskDescription, timeLimit, memoryLimit, slug, score) VALUES ('Q1', 'alo alo', '1', '256', 'Q1', 100)
-GO
-select * from tasks 
-select * from tasks where slug = 'Q1'
-GO
-
-drop table tasks
-select * from users where username = 'phucnt'
-
-/*
-drop table submissions
-
-/* test */
-update users
-set score = 0
-where username = 'admin' */
+SET IDENTITY_INSERT [dbo].[users] OFF

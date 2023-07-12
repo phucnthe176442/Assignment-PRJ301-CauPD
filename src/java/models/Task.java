@@ -1,10 +1,12 @@
-package models.entity;
+package models;
+
+import java.sql.Timestamp;
 
 /**
  *
  * @author Admin
  */
-public class Task {
+public class Task extends BaseModel {
 
     private String taskname;
     private String taskDescription;
@@ -17,6 +19,9 @@ public class Task {
     }
 
     public Task(
+            int id,
+            Timestamp createdAt,
+            Timestamp updatedAt,
             String taskname,
             String taskDescription,
             String timeLimit,
@@ -24,6 +29,7 @@ public class Task {
             String slug,
             int score
     ) {
+        super(id, createdAt, updatedAt);
         this.taskname = taskname;
         this.taskDescription = taskDescription;
         this.timeLimit = timeLimit;

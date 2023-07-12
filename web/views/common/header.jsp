@@ -4,11 +4,11 @@
     Author     : Admin
 --%>
 
-<%@page import = "models.entity.User"%>
+<%@page import = "models.User"%>
 <%
-    User currentUser = (User) request.getSession().getAttribute("currentUser");
+    User user = (User) request.getSession().getAttribute("user");
 %>
-<header class="header">
+<header class="header">    
     <form method="post" action="/homepage/users/updateName">
         <div class="popup_change_username">
             <div class="change_username">
@@ -30,7 +30,7 @@
         </div>
     </form>
 
-    <form method="post" action="/homepage/users/updatePass">
+    <form method="post" action="/users/update">
         <div class="popup_change_password">
             <div class="change_password">
                 <p>Password Setting</p>
@@ -56,7 +56,7 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="/homepage">
                 <div class="nav_logo">
-                    <img class="logo" src="./public/img/logo.png" alt="logo">
+                    <img class="logo" src="/public/img/logo.png" alt="logo">
                     <div class="name-website">
                         PRJ301 Project
                     </div>
@@ -76,14 +76,14 @@
                     </li>
                 </ul>
                 <%
-                    if(currentUser != null) {
+                    if(user != null) {
                 %>
                 <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
 
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <div id="username">
-                                <%= currentUser.getUsername() %>
+                                <%= user.getUsername() %>
                             </div>
                             <i id="user_symbol" class="fa-solid fa-user"></i>
                         </a>
@@ -94,7 +94,12 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="/">Logout</a></li>
+                            <li>
+                                <form action="/login" method="post">
+                                    <input type="submit" class="dropdown-item" value="Logout">
+                                    <input type="hidden" value="1" name="logout">
+                                </form>
+                            </li>
                         </ul>
                     </li>
                 </ul>

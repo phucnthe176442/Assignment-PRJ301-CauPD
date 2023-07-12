@@ -1,15 +1,16 @@
-package models.entity;
+package models;
+
+import java.sql.Timestamp;
 
 /**
  *
  * @author Admin
  */
-public class Submission {
+public class Submission extends BaseModel {
 
     private String username;
     private String taskname;
     private String status;
-    private String when;
     private String slug;
     private String code;
 
@@ -17,17 +18,19 @@ public class Submission {
     }
 
     public Submission(
+            int id,
+            Timestamp createdAt,
+            Timestamp updatedAt,
             String username,
             String taskname,
             String status,
-            String when,
             String slug,
             String code
     ) {
+        super(id, createdAt, updatedAt);
         this.username = username;
         this.taskname = taskname;
         this.status = status;
-        this.when = when;
         this.slug = slug;
         this.code = code;
     }
@@ -42,10 +45,6 @@ public class Submission {
 
     public String getStatus() {
         return status;
-    }
-
-    public String getWhen() {
-        return when;
     }
 
     public String getSlug() {
@@ -66,10 +65,6 @@ public class Submission {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public void setWhen(String when) {
-        this.when = when;
     }
 
     public void setSlug(String slug) {

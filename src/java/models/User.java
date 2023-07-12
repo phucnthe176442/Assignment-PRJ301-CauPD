@@ -1,10 +1,12 @@
-package models.entity;
+package models;
+
+import java.sql.Timestamp;
 
 /**
  *
  * @author Admin
  */
-public class User {
+public class User extends BaseModel {
 
     private String username;
     private String password;
@@ -16,11 +18,15 @@ public class User {
     }
 
     public User(
+            int id,
+            Timestamp createdAt,
+            Timestamp updatedAt,
             String username,
             String password,
             String email,
             int score
     ) {
+        super(id, createdAt, updatedAt);
         this.username = username;
         this.password = password;
         this.email = email;

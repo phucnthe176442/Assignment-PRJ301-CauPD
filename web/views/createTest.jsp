@@ -3,48 +3,106 @@
     Created on : Jun 25, 2023, 10:54:29 PM
     Author     : Admin
 --%>
-<%@page import = "models.entity.Testcase" %>
-<$@page import = "java.util.List" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<%@page import = "models.Testcase" %>
+<%@page import = "models.Task" %>
+<%@page import = "java.util.ArrayList"%>
 <% 
   Task task = (Task) request.getAttribute("task"); 
-  List<Testcase> testcases = (List<Testcase>) request.getAttribute("testcases");
+  if(task == null)
+    task = (Task) request.getSession().getAttribute("task"); 
+  ArrayList<Testcase> testcases = (ArrayList<Testcase>) request.getAttribute("testcases");
+  if(testcases == null) 
+    testcases = (ArrayList<Testcase>) request.getSession().getAttribute("testcases");
+  String error = (String) request.getAttribute("error");
 %>
-<h1>
-  Add test for <%= task.getTaskName() %>
-</h1>
-<form method="POST" action="/homepage/tests/create">
-  <div class="mb-3">
-    <label for="input" class="form-label">Input</label>
-    <input type="text" name="input" class="form-control" id="input" placeholder="Enter input" required/>
-  </div>
-  <div class="mb-3">
-    <label for="output" class="form-label">Output</label>
-    <input type="number" name="output" class="form-control" id="output" placeholder="Enter output" required/>
-  </div>
-  <input type="hidden" name="slug" value={{slug}}>
-  <button type="submit">Add Test</button>
-</form>
-  
-<button type="button" class="mt-4 bg-white mb-4 bbacktohome"><a href="/homepage" class="text-dark">Back to home</a></button>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <link rel="stylesheet" href="/views/css/index.css">
+        <title>Online Judge PRJ301</title>
+    </head>
+    <body>
+        <div class="container_new">
+            <jsp:include page = "./common/header.jsp"/>
 
-<ul class="list-group list-group-horizontal-md test_list_all">
-  <%
-    int id = 1;
-    for(Testcase testcase : testcases) {
-  %>
-  <li class="list-group-item mr-4 test_list" title='{{this.input}}=>{{this.output}}'>
-    <form method="post" action="/homepage/tests/delete">
-      <input type="hidden" name="_id" value="<%= id %>">
-      <input type="hidden" name="slug" value={{this.task_name}}>
-      <button onclick="checkDelete()" type="submit">Test {{@index}} <i class="fa-solid fa-circle-minus"></i></a></button>
-    </form>
-  </li>
-  <% } %>
-</ul>
+            <h1>
+                Add test for <%= task.getTaskname() %>
+            </h1>
+            <form method="POST" action="/tests/create">
+                <div class="mb-3">
+                    <label for="input" class="form-label">Input</label>
+                    <textarea 
+                        type="text" 
+                        name="input" 
+                        class="form-control" 
+                        id="input" 
+                        required>
+                    </textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="output" class="form-label">Output</label>
+                    <textarea 
+                        type="text" 
+                        name="output" 
+                        class="form-control" 
+                        id="output" 
+                        required/>
+                    </textarea>
+                </div>
+                <input type="hidden" name="slug" value="<%= task.getSlug() %>">
+                <button type="submit">Add Test</button>
+            </form>
 
-<script>
-  function checkDelete(){ var a = confirm("are you sure?"); if(a) {
-    window.location.href='/homepage/tasks/delete'; } }
-</script>
+            <div class="error mt-4 bg-white mb-4">
+                <% if(error != null && !error.isEmpty()) {%>
+                <%= error %>
+                <% } %>
+            </div>
 
-<div style="height: 6em"></div>
+            <button class="mt-4 bg-white mb-4 bbacktohome">
+                <a href="/homepage" class="text-dark">Back to home</a>
+            </button>
+
+            <ul class="list-group list-group-horizontal-md test_list_all">
+                <%
+                  int id = 1;
+                  for(Testcase testcase : testcases) {
+                %>
+                <li 
+                    class="list-group-item mr-4 test_list" 
+                    title='<%= testcase.getInput() + "\n" %> => <%= "\n" + testcase.getOutput() %>'
+                    >
+
+                    <form method="post" action="/tests/delete">
+                        <input type="hidden" name="testcase_id" value="<%= testcase.getId() %>">
+                        <input type="hidden" name="slug" value="<%= testcase.getSlug() %>">
+                        <button 
+                            onclick="return confirm('Are you sure?')" 
+                            type="submit"
+                            >Test <%= id %><i class="fa-solid fa-circle-minus"></i>
+                        </button>
+                    </form>
+
+                </li>
+                <% 
+                    id++;
+                    } 
+                %>
+            </ul>
+
+            <div style="height: 6em"></div>
+
+            <jsp:include page = "./common/footer.jsp"/>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/4025a1217e.js" crossorigin="anonymous"></script>
+        <script src="./index.js"></script>
+    </body>
+</html>
+
